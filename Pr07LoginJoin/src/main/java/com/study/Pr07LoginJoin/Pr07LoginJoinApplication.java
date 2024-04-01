@@ -1,13 +1,13 @@
-package com.study.Pr01Counter;
+package com.study.Pr07LoginJoin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Pr01CounterApplication {
+public class Pr07LoginJoinApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Pr01CounterApplication.class, args);
+		SpringApplication.run(Pr07LoginJoinApplication.class, args);
 	}
 
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="container mx-auto flex flex-col m-5">
+      <h1 class="text-lg font-bold">계산기 프로그램</h1>
+      <label class="m-3">숫자 1</label>
+      <input
+        type="number"
+        name="a"
+        th:value="|${num1}|"
+        class="border rounded-lg border-lime-300 h-8"
+        id="a"
+      />
+      <label class="m-3">숫자 2</label>
+      <input
+        type="number"
+        name="b"
+        th:value="|${num2}|"
+        class="border rounded-lg border-lime-300 h-8"
+        id="b"
+      />
+      <label class="m-3">연산 결과</label>
+      <input
+        type="text"
+        disabled
+        th:value="|${result}|"
+        class="border rounded-lg border-lime-300 h-8"
+        id="result"
+      />
+      <div class="flex flex-col m-3 content-around">
+        <input
+          type="button"
+          value="덧셈"
+          onclick="calc('add')"
+          class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+        />
+        <input
+          type="button"
+          value="뺄셈"
+          onclick="calc('sub')"
+          class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+        />
+        <inputsub
+          type="button"
+          value="곱셈"
+          onclick="calc('mul')"
+          class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+        />
+        <input
+          type="button"
+          value="나눗셈"
+          onclick="calc('div')"
+          class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+        />
+        <button
+          type="button"
+          onclick="resetAB()"
+          class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+        >
+          지우기
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const resetAB = () => {
+      document.getElementById("a").value = "0";
+      document.getElementById("b").value = "0";
+      document.getElementById("result").value = "";
+      document.getElementById("a").focus();
+    };
+
+    function calc(op) {
+      fetch("http://localhost:8080/api/v1/calc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          operation: op,
+          num1: document.getElementById("a").value,
+          num2: document.getElementById("b").value,
+        }),
+      })
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((json) => {
+          //JSON객체
+          //{ status: "ok", result: 5 }
+          console.log(json);
+          //응답메시지 표시하기
+          document.getElementById("result").value = json.result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  </script>
+</html>

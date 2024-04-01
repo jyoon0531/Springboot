@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="container mx-auto flex flex-col m-5">
+      <h1 class="text-lg font-bold">계산기 프로그램</h1>
+      <form class="flex flex-col w-1/5" method="get" name="formCalc">
+        <label class="m-3">숫자 1</label>
+        <input
+          type="number"
+          name="a"
+          th:value="|${num1}|"
+          class="border rounded-lg border-lime-300 h-8"
+          id="a"
+        />
+        <label class="m-3">숫자 2</label>
+        <input
+          type="number"
+          name="b"
+          th:value="|${num2}|"
+          class="border rounded-lg border-lime-300 h-8"
+          id="b"
+        />
+        <label class="m-3">연산 결과</label>
+        <input
+          type="text"
+          disabled
+          th:value="|${result}|"
+          class="border rounded-lg border-lime-300 h-8"
+          id="result"
+        />
+        <div class="flex flex-col m-3 content-around">
+          <input
+            type="submit"
+            formaction="/add"
+            value="덧셈"
+            class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+          />
+          <input
+            type="submit"
+            formaction="/sub"
+            value="뺄셈"
+            class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+          />
+          <input
+            type="submit"
+            formaction="/mul"
+            value="곱셈"
+            class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+          />
+          <input
+            type="submit"
+            formaction="/div"
+            value="나눗셈"
+            class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+          />
+          <button
+            type="button"
+            onclick="resetAB()"
+            class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
+          >
+            지우기
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    const resetAB = () => {
+      document.getElementById("a").value = "0";
+      document.getElementById("b").value = "0";
+      document.getElementById("result").value = "";
+      document.getElementById("a").focus();
+    };
+  </script>
+</html>

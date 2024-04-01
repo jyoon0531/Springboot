@@ -35,26 +35,30 @@
       />
       <div class="flex flex-col m-3 content-around">
         <input
+          name="calc"
+          id="plus"
           type="button"
-          onclick="calcNums()"
           value="덧셈"
           class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
         />
         <input
-          type="submit"
-          formaction="/sub"
+          name="calc"
+          id="minus"
+          type="button"
           value="뺄셈"
           class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
         />
         <input
-          type="submit"
-          formaction="/mul"
+          name="calc"
+          id="multi"
+          type="button"
           value="곱셈"
           class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
         />
         <input
-          type="submit"
-          formaction="/div"
+          name="calc"
+          id="div"
+          type="button"
           value="나눗셈"
           class="self-center m-3 h-8 bg-blue-500 text-white border rounded-lg w-3/6"
         />
@@ -75,19 +79,50 @@
       document.getElementById("result").value = "";
       document.getElementById("a").focus();
     };
-    const calcNums = () => {
+    let str = "";
+    document.getElementById("plus").addEventListener("click", function (e) {
+      calcAB("plus");
+    });
+    document.getElementById("minus").addEventListener("click", function (e) {
+      calcAB("minus");
+    });
+    document.getElementById("multi").addEventListener("click", function (e) {
+      calcAB("multi");
+    });
+    document.getElementById("div").addEventListener("click", function (e) {
+      calcAB("div");
+    });
+    const calcAB = (action) => {
       let a = document.getElementById("a").value;
       let b = document.getElementById("b").value;
-      fetch("http://localhost:8080/api/v1/add", {
+      if (action == "plus") {
+        str = "http://localhost:8080/api/v1/add";
+      } else if (action == "minus") {
+        str = "http://localhost:8080/api/v1/sub";
+      } else if (action == "multi") {
+        str = "http://localhost:8080/api/v1/mul";
+      } else if (action == "div") {
+        str = "http://localhost:8080/api/v1/div";
+      }
+
+      fetch(str, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          a: a,
-          b: b,
+          num1: a,
+          num2: b,
         }),
-      });
+      })
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((json) => {
+          document.getElementById("result").value = json.result;
+        })
+        .catch((error) => console.log(error));
     };
   </script>
 </html>
