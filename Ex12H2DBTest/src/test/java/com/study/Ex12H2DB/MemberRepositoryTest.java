@@ -171,8 +171,11 @@ public class MemberRepositoryTest extends Ex12H2DbApplicationTests {
     @Test
     @DisplayName("암호 테스트")
     public void findByUserPw() {
-        List<MemberEntity> list = memberRepository.findByUserPw("1234");
-        assertEquals(3, list.size());
+//        List<MemberEntity> list = memberRepository.findByUserPw("1234");
+//        assertEquals(3, list.size());
+
+        Boolean b = memberRepository.existsByUserPw("1234");
+        assertEquals(true, b);
     }
 
     @Test

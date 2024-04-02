@@ -75,4 +75,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Transactional
     @Query(value = "UPDATE member SET user_name = :userName, user_pw = :userPw WHERE user_id = :userId", nativeQuery = true)
     int updateByUserId_nativeQuery(@Param("userName") String userName, @Param("userPw") String userPw, @Param("userId") String userId);
+
+    Boolean existsByUserPw(String userPw);
 }
