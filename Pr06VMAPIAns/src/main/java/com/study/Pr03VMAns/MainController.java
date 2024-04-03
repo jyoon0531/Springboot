@@ -1,5 +1,6 @@
 package com.study.Pr03VMAns;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
+
+    final ProductRepository productRepository;
 
     @GetMapping("/")
     public String main() {
@@ -27,7 +31,7 @@ public class MainController {
     // /editProduct?index=0
     @GetMapping("/editProductForm")
     public String editProductForm(@RequestParam int index, Model model) {
-        Product product = ApiController.list.get(index);
+        Product product = productRepository.list.get(index);
         model.addAttribute("index", index);
         model.addAttribute("product", product); 
         return "editProductForm";

@@ -124,7 +124,9 @@
 
           <!-- 상품 추가 -->
           <div class="addButton">
-            <button type="button" class="btn btn-dark">상품 추가 완료!</button>
+            <button type="button" onclick="addProduct()" class="btn btn-dark">
+              상품 추가 완료!
+            </button>
             <button
               type="button"
               onclick="history.back();"
@@ -146,6 +148,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
     <script>
+      function addProduct() {
+        const inputName = document.getElementById("inputName").value;
+        const inputPrice = document.getElementById("inputPrice").value;
+        const inputLimitDate = document.getElementById("inputLimitDate").value;
+        fetch("/api/v1/product", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            inputName,
+            inputPrice,
+            inputLimitDate,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            if (json.count >= 1) {
+              window.location.href = "/";
+            }
+          });
+      }
+
       function productAdded() {
         alert("상품을 추가하였습니다!");
       }

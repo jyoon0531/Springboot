@@ -87,7 +87,12 @@
 
         <form action="/editProduct" method="post">
           <!-- 인덱스 생성 -->
-          <input type="hidden" name="index" th:value="${index}" />
+          <input
+            type="hidden"
+            id="productIndex"
+            name="index"
+            th:value="${index}"
+          />
           <!-- 상품명 -->
           <div class="form-group">
             <label for="inputName" class="text-white">상품명:</label>
@@ -129,7 +134,9 @@
 
           <!-- 상품 수정 -->
           <div class="addButton">
-            <button type="submit" class="btn btn-dark">상품 수정 완료!</button>
+            <button type="button" onclick="editProduct()" class="btn btn-dark">
+              상품 수정 완료!
+            </button>
             <button
               type="button"
               onclick="history.back();"
@@ -154,6 +161,29 @@
       // function productEdited() {
       //   alert("상품을 수정하였습니다!");
       // }
+      function editProduct() {
+        const index = document.getElementById("productIndex").value;
+        const inputName = document.getElementById("inputName").value;
+        const inputPrice = document.getElementById("inputPrice").value;
+        const inputLimitDate = document.getElementById("inputLimitDate").value;
+        fetch("/api/v1/product", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            index,
+            inputName,
+            inputPrice,
+            inputLimitDate,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            if (json.count >= 1) {
+              window.location.href = "/";
+            }
+          });
+      }
 
       $(document).ready(function () {
         $(".datepicker").datepicker({

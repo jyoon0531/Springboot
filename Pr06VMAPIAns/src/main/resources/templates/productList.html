@@ -180,14 +180,29 @@
         });
       }
 
+      // function onEdit(button) {}
+
       // 상품 삭제 경고창
-      function confirmAndNotify(link) {
+      function confirmAndNotify(button) {
         var confirmation = confirm("정말로 삭제하시겠습니까?");
         if (confirmation) {
           // alert("삭제하였습니다!");
           // "확인"
-          const url = link.getAttribute("href");
+          const url = button.getAttribute("href");
 
+          fetch("api/v1" + url, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((json) => {
+              console.log(json);
+              if (json.count >= 1) {
+                getProductList();
+              }
+            });
           // window.location.href = link.getAttribute("href");
         }
         return false; // GET요청이 안보내짐
