@@ -57,54 +57,46 @@
 
             <!-- 상품 목록에 상품 존재 O -->
             <table class="table table-bordered border-danger">
-              <tr class="text-center">
-                <!-- { status.count } -->
-                <th scope="col" id="listNum" class="text-danger">번호</th>
-                <!-- { product.name } -->
-                <th scope="col" id="listName">상품명</th>
-                <!-- { product.price } -->
-                <th scope="col" id="listPrice">가격</th>
-                <!-- { product.limit_date } -->
-                <th scope="col" id="listDate">유통기한</th>
-                <!--  -->
-                <th scope="col" id="editTitle">수정</th>
-                <th scope="col" id="removeTitle">삭제</th>
-              </tr>
-              <tr
-                th:each="product, status: ${list}"
-                class="text-center align-middle"
-              >
-                <th th:text="${status.count}" scope="row">1</th>
-                <td th:text="${product.name}" class="text-center align-middle">
-                  베이컨버거
-                </td>
-                <td th:text="${product.price}" class="text-center align-middle">
-                  10000
-                </td>
-                <td
-                  th:text="${product.limit_date}"
-                  class="text-center align-middle"
-                >
-                  2024-03-06
-                </td>
-                <td class="text-center align-middle">
-                  <a
-                    th:href="|/editProductForm?index=${status.index}|"
-                    class="btn btn-primary fw-bold editBtn"
-                    role="button"
-                    >수정</a
-                  >
-                </td>
-                <td class="text-center align-middle">
-                  <a
-                    th:href="|/deleteProduct?index=${status.index}|"
-                    class="btn btn-danger fw-bold removeBtn"
-                    role="button"
-                    onclick="return confirmAndNotify(this)"
-                    >삭제</a
-                  >
-                </td>
-              </tr>
+              <thead>
+                <tr class="text-center">
+                  <!-- { status.count } -->
+                  <th scope="col" id="listNum" class="text-danger">번호</th>
+                  <!-- { product.name } -->
+                  <th scope="col" id="listName">상품명</th>
+                  <!-- { product.price } -->
+                  <th scope="col" id="listPrice">가격</th>
+                  <!-- { product.limit_date } -->
+                  <th scope="col" id="listDate">유통기한</th>
+                  <!--  -->
+                  <th scope="col" id="editTitle">수정</th>
+                  <th scope="col" id="removeTitle">삭제</th>
+                </tr>
+              </thead>
+              <tbody id="product-tbody">
+                <tr class="text-center align-middle">
+                  <th scope="row">1</th>
+                  <td class="text-center align-middle">베이컨버거</td>
+                  <td class="text-center align-middle">10000</td>
+                  <td class="text-center align-middle">2024-03-06</td>
+                  <td class="text-center align-middle">
+                    <a
+                      href="/editProductForm?index=0"
+                      class="btn btn-primary fw-bold editBtn"
+                      role="button"
+                      >수정</a
+                    >
+                  </td>
+                  <td class="text-center align-middle">
+                    <a
+                      href="/deleteProduct?index=0"
+                      class="btn btn-danger fw-bold removeBtn"
+                      role="button"
+                      onclick="return confirmAndNotify(this)"
+                      >삭제</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -114,7 +106,7 @@
           class="listSizeBox bg-white rounded-start text-danger fw-bold"
         >
           <span id="total">▲ 총</span>
-          <span th:text="${count}" class="text-dark"></span>
+          <span id="product-count" class="text-dark"></span>
           <span id="totalNum">개의 상품이 있습니다.</span>
         </div>
         <!-- 상품 추가하기 버튼 -->
@@ -131,13 +123,72 @@
     </div>
 
     <script>
+      window.addEventListener("load", (event) => {
+        getProductList();
+      });
+      function getProductList() {
+        // RESTful API 서버에 리스트 요청하기
+        fetch("/api/v1/products", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            // [{ name : "불고기버거", price : 1000 ...}, { name : "불고기버거", price : 1000 ...}, ... ]
+            console.log(json);
+            // HTML Element 생성하기
+            makeProductList(json);
+          });
+      }
+      function makeProductList(productList) {
+        let count = document.getElementById("product-count");
+        count.innerText = productList.length;
+        let tbody = document.getElementById("product-tbody");
+        tbody.innerHTML = "";
+
+        productList.forEach((product, index) => {
+          let trStr = `<tr class="text-center align-middle">
+                    <th scope="row">${index + 1}</th>
+                    <td class="text-center align-middle">${product.name}</td>
+                    <td class="text-center align-middle">${product.price}</td>
+                    <td class="text-center align-middle">${
+                      product.limit_date
+                    }</td>
+                    <td class="text-center align-middle">
+                      <a
+                        href="/editProductForm?index=${index}"
+                        class="btn btn-primary fw-bold editBtn"
+                        role="button"
+                        >수정</a
+                      >
+                    </td>
+                    <td class="text-center align-middle">
+                      <button
+                        href="/deleteProduct?index=${index}"
+                        class="btn btn-danger fw-bold removeBtn"
+                        role="button"
+                        onclick="return confirmAndNotify(this)"
+                        >삭제</button
+                      >
+                    </td>
+                  </tr>`;
+          tbody.insertAdjacentHTML("beforeend", trStr);
+        });
+      }
+
       // 상품 삭제 경고창
       function confirmAndNotify(link) {
         var confirmation = confirm("정말로 삭제하시겠습니까?");
         if (confirmation) {
           // alert("삭제하였습니다!");
           // "확인"
-          window.location.href = link.getAttribute("href");
+          const url = link.getAttribute("href");
+
+          // window.location.href = link.getAttribute("href");
         }
         return false; // GET요청이 안보내짐
       }

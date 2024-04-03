@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>자판기 상품 수정</title>
+    <title>자판기 상품 추가</title>
     <style>
       /* 폰트 */
       @font-face {
@@ -82,12 +82,10 @@
     <div class="wrap">
       <div class="container">
         <div class="title-box">
-          <h2 class="title fw-bold">자판기 상품 수정</h2>
+          <h2 class="title fw-bold">자판기 상품 추가</h2>
         </div>
 
-        <form action="/editProduct" method="post">
-          <!-- 인덱스 생성 -->
-          <input type="hidden" name="index" th:value="${index}" />
+        <form action="/addProduct" method="post">
           <!-- 상품명 -->
           <div class="form-group">
             <label for="inputName" class="text-white">상품명:</label>
@@ -96,7 +94,6 @@
               class="form-control"
               id="inputName"
               name="inputName"
-              th:value="${product.name}"
               required
             />
           </div>
@@ -109,7 +106,6 @@
               class="form-control"
               id="inputPrice"
               name="inputPrice"
-              th:value="${product.price}"
               required
             />
           </div>
@@ -122,14 +118,13 @@
               class="form-control datepicker"
               id="inputLimitDate"
               name="inputLimitDate"
-              th:value="${product.limit_date}"
               required
             />
           </div>
 
-          <!-- 상품 수정 -->
+          <!-- 상품 추가 -->
           <div class="addButton">
-            <button type="submit" class="btn btn-dark">상품 수정 완료!</button>
+            <button type="button" class="btn btn-dark">상품 추가 완료!</button>
             <button
               type="button"
               onclick="history.back();"
@@ -151,9 +146,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
     <script>
-      // function productEdited() {
-      //   alert("상품을 수정하였습니다!");
-      // }
+      function productAdded() {
+        alert("상품을 추가하였습니다!");
+      }
 
       $(document).ready(function () {
         $(".datepicker").datepicker({

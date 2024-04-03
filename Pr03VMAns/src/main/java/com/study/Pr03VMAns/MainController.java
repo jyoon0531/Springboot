@@ -18,6 +18,7 @@ public class MainController {
     @GetMapping("/")
     public String main(Model model) {
         model.addAttribute("list", list);
+        model.addAttribute("count", list.size());
         return "productList";
     }
 
@@ -50,5 +51,38 @@ public class MainController {
 
         //return "redirect:/";
         return "<script>alert('상품이 추가되었습니다!'); location.href='/';</script>";
+    }
+
+    // /deleteProduct?index=0
+    @GetMapping("/deleteProduct")
+    @ResponseBody
+    public String deleteProduct(@RequestParam int index) {
+        System.out.println("index = " + index);
+        list.remove(index);
+        return "<script>alert('상품이 삭제되었습니다!'); location.href='/';</script>";
+    }
+
+    // /editProduct?index=0
+    @GetMapping("/editProductForm")
+    public String editProductForm(@RequestParam int index, Model model) {
+        Product product = list.get(index);
+        model.addAttribute("product", product);
+        model.addAttribute("index", index);
+        return "editProductForm";
+    }
+
+    @PostMapping("/editProduct")
+    @ResponseBody
+    public String editProduct(@RequestParam int index,
+                              @RequestParam String inputName,
+                              @RequestParam int inputPrice,
+                              @RequestParam LocalDate inputLimitDate) {
+        Product product = list.get(index);
+        product.setName(inputName);
+        product.setPrice(inputPrice);
+        product.setLimit_date(inputLimitDate);
+
+        list.set(index, product);
+        return "<script>alert('상품이 수정되었습니다!'); location.href='/';</script>";
     }
 }
