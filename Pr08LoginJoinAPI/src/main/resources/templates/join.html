@@ -21,13 +21,12 @@
     />
     <script>
       function checkAgreement() {
-        // console.log(document.getElementById("exampleCheck1").checked);
-        if (!document.getElementById("exampleCheck1").checked) {
-          alert("이용약관에 동의해주세요.");
-          return false;
-        }
         if (!document.getElementById("inputName").value) {
           alert("이름을 입력해주세요.");
+          return false;
+        }
+        if (!document.getElementById("exampleCheck1").checked) {
+          alert("이용약관에 동의해주세요.");
           return false;
         }
         return true;
@@ -152,7 +151,11 @@
                     </button>
                   </div>
                   <div class="text-center my-5">
-                    <button type="submit" class="btn btn-primary">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="join()"
+                    >
                       회원가입
                     </button>
                   </div>
@@ -177,11 +180,7 @@
     <script>
       function fetch_dupl() {
         const inputName = document.getElementById("inputName").value;
-        // if (!inputName) {
-        //   alert("아이디를 입력해주세요.");
-        //   return;
-        // }
-        fetch("http://localhost:8080/check", {
+        fetch("/api/v1/check", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -198,6 +197,33 @@
             document.getElementById("alert").style.display = "block";
             document.getElementById("alert").innerText = json.message;
           });
+      }
+
+      function join() {
+        if (checkAgreement()) {
+          const inputName = document.getElementById("inputName").value;
+          const inputEmail = document.getElementById("inputEmail").value;
+
+          const inputPw = document.getElementById("inputPw").value;
+          fetch("/api/v1/join", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              inputName,
+              inputEmail,
+              inputPw,
+            }),
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json);
+              if (json.status == "ok") {
+                window.location.href = "/login";
+              }
+            });
+        }
       }
     </script>
 
