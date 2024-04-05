@@ -19,13 +19,6 @@ public class MainController {
     @GetMapping("/")
     public String main() {
 
-        return "redirect:/products";
-    }
-
-    @GetMapping("/products")
-    public String products(Model model) {
-        List<Product> products = productRepository.findAll();
-        model.addAttribute("list", products);
         return "productList";
     }
 
@@ -34,13 +27,6 @@ public class MainController {
         return "addProductForm";
     }
 
-    @PostMapping("/addProduct")
-    public String addProduct(@ModelAttribute AddDto dto) {
-        productRepository.save(Product.builder()
-                        .name(dto.getInputName()).price(dto.getInputPrice()).limit_date(dto.getInputLimitDate())
-                .build());
-        return "redirect:/products";
-    }
 
     // /editProduct?index=0
     @GetMapping("/editProductForm")
@@ -53,18 +39,6 @@ public class MainController {
         });
 
         return "editProductForm";
-    }
-
-    @PostMapping("/editProduct")
-    public String editProduct(@ModelAttribute EditDto dto) {
-        productRepository.save(Product.builder().id(dto.getIndex()).name(dto.getInputName()).price(dto.getInputPrice()).limit_date(dto.getInputLimitDate()).build());
-        return "redirect:/products";
-    }
-
-    @GetMapping("/deleteProduct")
-    public String deleteProduct(@RequestParam Long index) {
-        productRepository.deleteById(index);
-        return "redirect:products";
     }
 
 }
