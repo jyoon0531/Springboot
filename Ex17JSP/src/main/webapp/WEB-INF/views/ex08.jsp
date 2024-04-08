@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>ex06.jpg 헤더</title>
+    <title>ex08</title>
 </head>
 
 <body>
