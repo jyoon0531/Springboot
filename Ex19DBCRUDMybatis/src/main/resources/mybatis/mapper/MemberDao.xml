@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--SQL 끝에 ; 세미콜론 넣지 말것!-->
+<!--id는 함수 이름-->
+<!--resultType: int -> Integer-->
+<!--resultType: int -> _int-->
+<mapper namespace="com.study.Ex14RealDB.dao.IMemberDao">
+
+    <select id="list" resultType="com.study.Ex14RealDB.dto.MemberDto">
+        SELECT * FROM member ORDER BY join_date DESC
+    </select>
+
+    <select id="count" resultType="_int">
+        SELECT COUNT(*) FROM member
+    </select>
+
+    <select id="findById" resultType="com.study.Ex14RealDB.dto.MemberDto" parameterType="_int">
+        SELECT * FROM member WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.study.Ex14RealDB.dto.MemberDto">
+        INSERT INTO member VALUES (0, #{userId}, #{userPw}, #{userName} , #{userRole}, #{joinDate})
+    </insert>
+
+    <update id="update" parameterType="com.study.Ex14RealDB.dto.MemberDto">
+        UPDATE member
+        SET user_id = #{userId}, user_pw = #{userPw}, user_name = #{userName}, user_role = #{userRole}, join_date = #{joinDate}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="com.study.Ex14RealDB.dto.MemberDto">
+        DELETE FROM member
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
