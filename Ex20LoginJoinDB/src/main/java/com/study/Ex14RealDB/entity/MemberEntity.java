@@ -1,6 +1,6 @@
 package com.study.Ex14RealDB.entity;
 
-import com.study.Ex14RealDB.dto.MemberSaveDto;
+import com.study.Ex14RealDB.dto.MemberJoinDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,8 +30,8 @@ public class MemberEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")     // 나중에는 DTO로 가야 한다
     private LocalDate joinDate;
 
-    public MemberSaveDto toSaveDto() {
-        return MemberSaveDto.builder()
+    public MemberJoinDto toSaveDto() {
+        return MemberJoinDto.builder()
                 .id(id)
                 .userId(userId)
                 .userPw(userPw)
