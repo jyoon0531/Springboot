@@ -37,6 +37,6 @@ public class CustomerController {
 
     @GetMapping("/qna")
     public String qna() {
-        return "/customer/customer2";
+        return "/customer/customer02";
     }
 }
