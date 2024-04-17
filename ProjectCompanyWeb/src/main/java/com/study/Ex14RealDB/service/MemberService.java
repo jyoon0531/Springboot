@@ -42,7 +42,7 @@ public class MemberService {
         Optional<Member> optional = memberRepository.findByMemberPwAndMemberId(memberPw, memberId);
         if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             return null;
         }
 
@@ -55,6 +55,28 @@ public class MemberService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Member findByMemberNameAndMemberEmail(String memberName, String memberEmail) {
+        Optional<Member> optional = memberRepository.findByMemberNameAndMemberEmail(memberName, memberEmail);
+
+        if (optional.isPresent()) {
+            return optional.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Member findByMemberNameAndMemberEmailAndMemberId(String memberName, String memberEmail, String memberId) {
+        Optional<Member> optional = memberRepository.findByMemberNameAndMemberEmailAndMemberId(memberName, memberEmail, memberId);
+
+        if (optional.isPresent()) {
+            return optional.get();
+        } else {
+            return null;
         }
     }
 }

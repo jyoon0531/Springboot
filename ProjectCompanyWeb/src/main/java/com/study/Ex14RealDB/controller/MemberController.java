@@ -8,6 +8,7 @@ import com.study.Ex14RealDB.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -81,12 +82,27 @@ public class MemberController {
 
     @GetMapping("/idFind")
     public String idFind() {
-
         return "member/idFind";
+    }
+
+    @PostMapping("/idFindAction")
+    public String idFindAction(@RequestParam String userName, @RequestParam String userEmail, Model model) {
+        Member m = memberService.findByMemberNameAndMemberEmail(userName, userEmail);
+
+        model.addAttribute("userId", m.getMemberId());
+
+        return "/member/idFind";
     }
 
     @GetMapping("/passwordFind")
     public String passwordFind() {
         return "member/passwordFind";
+    }
+
+    @PostMapping("/passwordFindAction")
+    public String passwordFindAction(@RequestParam String userName, @RequestParam String userEmail, @RequestParam String userId, Model model) {
+        Member m = memberService.findByMemberNameAndMemberEmailAndMemberId(userName, userEmail, userId);
+        model.addAttribute("userPw", m.getMemberPw());
+        return "/member/passwordFind";
     }
 }
