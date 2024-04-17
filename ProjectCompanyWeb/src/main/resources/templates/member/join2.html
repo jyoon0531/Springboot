@@ -23,11 +23,101 @@
             crossorigin="anonymous"></script>
 
     <script>
-        $(document).ready(function () {
-            $('#headerTop').load("../headerTop-sub.html");
-            $('#header').load("../header-sub.html");
-            $('#footer').load("../footer-sub.html");
-        });
+        function checkValue() {
+            let pwLen = document.userInfo.userPw.value.length;
+            if (!document.userInfo.userId.value) {
+                alert('아이디를 입력하세요');
+                document.getElementById("userId").focus();
+                return false;
+            }
+
+            if (!document.userInfo.userPw.value) {
+                alert('비밀번호를 입력하세요');
+                document.getElementById("userPw").focus();
+                return false;
+            }
+
+            if (pwLen < 4) {
+                alert('비밀번호는 4자리 이상 입력하세요');
+                return false;
+            }
+
+            if (!document.userInfo.userName.value) {
+                alert('이름을 입력하세요');
+                document.getElementById("userName").focus();
+                return false;
+            }
+
+            if (!document.userInfo.userEmail.value) {
+                alert('이메일을 입력하세요');
+                document.getElementById("userEmail").focus();
+                return false;
+            }
+
+            if (document.userInfo.emailReceive.value === "") {
+                alert('이메일 수신 여부에 체크해주세요')
+                return false;
+            }
+
+            if (document.userInfo.pwCheckQuestion.value === "0") {
+                alert('비밀번호 확인시 질문을 선택해주세요');
+                return false;
+            }
+
+            if (!document.userInfo.pwCheckAnswer.value) {
+                alert('비밀번호 확인시 답변을 입력하세요');
+                return false;
+            }
+
+            if (document.userInfo.userGender.value === "") {
+                alert('성별에 체크해주세요')
+                return false;
+            }
+
+            if (document.userInfo.userBirthday.value === "") {
+                alert('생년월일을 입력하세요');
+                return false;
+            }
+
+            // return false;
+
+            return true;
+        }
+
+        function checkIdDuplicate() {
+            let inputId = document.getElementById("userId").value;
+            fetch("/member/checkIdDuplicate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    inputId,
+                }),
+            }).then((response) => {
+                return response.json();
+            }).then((json) => {
+                console.log(json);
+                alert(json.message);
+                if (json.status === "fail") {
+                    document.getElementById("userId").focus();
+                }
+            })
+        }
+
+        function checkPw() {
+            let pw = document.getElementById("userPw").value;
+            let checkPw = document.getElementById("userPwCheck").value;
+            // console.log(pw);
+            // console.log(checkPw);
+            if (pw === checkPw) {
+                document.getElementById("pwResult").style.color = "green";
+                document.getElementById("pwResult").innerText = "비밀번호가 일치합니다.";
+            }else {
+                document.getElementById("pwResult").style.color = "red";
+                document.getElementById("pwResult").innerText = "비밀번호가 일치하지 않습니다.";
+            }
+        }
     </script>
 
 </head>
@@ -72,7 +162,7 @@
             자세한 내용은 개인정보보호정책에서 확인하세요.</h5>
     </div>
     <!-- 입력폼 -->
-    <form action="/member/joinAction" method="post">
+    <form action="/member/joinAction" method="post" name="userInfo" onsubmit="return checkValue()">
 
         <div class="information1">
             <div>기본정보</div>
@@ -80,40 +170,49 @@
                 <tr>
                     <td>아이디</td>
                     <td>
-                        <input type="text" name="userID">
-                        <img src="../img/member/btn_iddupl.gif" onclick="">
+                        <input type="text" name="userId" id="userId">
+                        <!--아이디 중복 체크-->
+                        <img src="../img/member/btn_iddupl.gif" onclick="checkIdDuplicate()">
                         (영문 소문자, 숫자로 4~16자)
                     </td>
                 </tr>
                 <tr>
                     <td>비밀번호</td>
                     <td>
-                        <input type="password" name="userPW">
-                        영문/숫자/특수문자조합으로 8~16자리. 첫글자는 영문자로 사용
+                        <input type="password" name="userPw" id="userPw">
+                        영문/숫자/특수문자조합으로 4~16자리.
                     </td>
                 </tr>
                 <tr>
                     <td>비밀번호 확인</td>
-                    <td><input type="password" name="userPWCheck"></td>
+                    <td><input type="password" name="userPwCheck" id="userPwCheck" onkeyup="checkPw()">
+                        <span id="pwResult"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td>이름</td>
-                    <td><input type="text"></td>
+                    <td><input type="text" name="userName" id="userName"></td>
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text">@<input type="text"></td>
+                    <td><input type="email" name="userEmail" id="userEmail"></td>
                 </tr>
                 <tr>
                     <td>이메일 수신여부</td>
-                    <td><input type="radio" name="" id="">수신
-                        <input type="radio" name="" id="">수신안함
+                    <td><input type="radio" name="emailReceive" id="emailReceive1" value="0">
+                        <label for="emailReceive1">
+                            수신
+                        </label>
+                        <input type="radio" name="emailReceive" id="emailReceive2" value="1">
+                        <label for="emailReceive2">
+                            수신안함
+                        </label>
                     </td>
                 </tr>
                 <tr>
                     <td>비밀번호 확인시 질문</td>
                     <td>
-                        <select class="size" name="passwordCheckQuestion">
+                        <select class="size" name="pwCheckQuestion">
                             <option value="0">========선택========</option>
                             <option value="1">기억에 남는 추억의 장소는?</option>
                             <option value="2">자신의 인생 좌우명은?</option>
@@ -125,16 +224,18 @@
                 </tr>
                 <tr>
                     <td>비밀번호 확인시 답변</td>
-                    <td><input type="text" name="passwordCheckAnswer" value=""></td>
+                    <td><input type="text" name="pwCheckAnswer" id="pwCheckAnswer"></td>
                 </tr>
                 <tr>
                     <td>성별</td>
-                    <td><input type="radio">남자<input type="radio">여자</td>
+                    <td><input type="radio" name="userGender" value="남자">남자
+                        <input type="radio" name="userGender" value="여자">여자
+                    </td>
                 </tr>
                 <tr>
                     <td>생년월일</td>
                     <td>
-                        <input type="date" class="birthdaySelect">
+                        <input type="date" class="birthdaySelect" name="userBirthday">
                     </td>
                 </tr>
             </table>
