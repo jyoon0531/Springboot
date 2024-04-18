@@ -7,10 +7,12 @@ import com.study.Ex14RealDB.dto.ReplyResponseDto;
 import com.study.Ex14RealDB.service.BoardService;
 import com.study.Ex14RealDB.service.ReplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,8 +32,15 @@ public class BoardController {
     }
 
     @GetMapping("/listForm")
-    public String listForm(Model model) {
-        List<BoardResponseDto> list = boardService.findAll();
+    public String listForm(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+
+        Page<Board> paging = boardService.getList(page);
+        model.addAttribute("paging", paging);
+
+        List<BoardResponseDto> list = new ArrayList<>();
+        for (Board entity : paging) {
+            list.add(new BoardResponseDto(entity));
+        }
         model.addAttribute("list", list);
         return "listForm"; //listForm.html로 응답
     }

@@ -71,8 +71,12 @@
                 <div><input type="image" src="../img/member/btn_confirm.gif"></div>
             </form>
         </th:block>
-        <th:block th:if="${userId} != null">
+        <th:block th:if="${userId} != '회원정보가 없습니다.'">
             <div th:text="|회원님의 아이디는 ${userId}입니다.|"></div>
+            <div><input type="image" src="../img/member/btn_close.gif" onclick="location.href='/'"></div>
+        </th:block>
+        <th:block th:if="${userId} == '회원정보가 없습니다.'">
+            <div th:text="|${userId}|" style="color: red;"></div>
             <div><input type="image" src="../img/member/btn_close.gif" onclick="location.href='/'"></div>
         </th:block>
     </div>

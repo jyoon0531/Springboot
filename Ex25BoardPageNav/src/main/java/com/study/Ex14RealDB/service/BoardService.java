@@ -6,10 +6,14 @@ import com.study.Ex14RealDB.domain.board.BoardRepository;
 import com.study.Ex14RealDB.dto.BoardResponseDto;
 import com.study.Ex14RealDB.dto.BoardSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,8 +44,20 @@ public class BoardService {
     //    1. A계좌 : 1000원 감소  -> 성공
     //    2. B계좌 : 1000원 증가  -> 통신오류!
     //    3. 송금 내역 저장
+
+    //전체 목록 조회 - 페이징
+    public Page<Board> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("boardDate"));    // 최신글을 먼저 보여준다.
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
+        return boardRepository.findAll(pageable);
+
+    }
+
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> findAll() { //전체 목록 조회
+    //전체 목록 조회
+    public List<BoardResponseDto> findAll() {
         //정렬기능 추가
         Sort sort = Sort.by(Sort.Direction.DESC, "boardDate", "boardIdx");
         List<Board> list = boardRepository.findAll(sort);

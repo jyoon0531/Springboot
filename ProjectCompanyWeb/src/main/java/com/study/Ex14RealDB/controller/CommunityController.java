@@ -1,6 +1,5 @@
 package com.study.Ex14RealDB.controller;
 
-import com.study.Ex14RealDB.domain.notice.Notice;
 import com.study.Ex14RealDB.dto.NoticeResponseDto;
 import com.study.Ex14RealDB.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.ClientInfoStatus;
 import java.util.List;
 
 @Controller
@@ -39,11 +37,11 @@ public class CommunityController {
         System.out.println(searchKeyword);
         System.out.println(searchColumn);
         if (searchColumn.equals("noticeTitle")) {
-            List<NoticeResponseDto> list = noticeService.findByNoticeTitle(searchKeyword);
+            List<NoticeResponseDto> list = noticeService.searchByNoticeTitle(searchKeyword);
             model.addAttribute("list", list);
         }
         if (searchColumn.equals("noticeContent")) {
-            List<NoticeResponseDto> list = noticeService.findByNoticeContent(searchKeyword);
+            List<NoticeResponseDto> list = noticeService.searchByNoticeContent(searchKeyword);
             model.addAttribute("list", list);
         }
 

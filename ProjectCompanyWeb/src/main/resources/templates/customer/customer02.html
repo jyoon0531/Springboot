@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,11 +23,7 @@
 
 
     <script>
-        $(document).ready(function () {
-            $('#headerTop').load("../headerTop-sub.html");
-            $('#header').load("../header-sub.html");
-            $('#footer').load("../footer-sub.html");
-        });
+
     </script>
 
 </head>
@@ -102,7 +98,7 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-<!--                <li><a class="dropdown-item" href="../customer/costomer03.html">FAQ</a></li>-->
+                <!--                <li><a class="dropdown-item" href="../customer/costomer03.html">FAQ</a></li>-->
             </ul>
         </li>
     </ul>
@@ -123,35 +119,11 @@
                 <th>작성자</th>
                 <th>작성일</th>
             </tr>
-            <tr onclick="openWindow(5)">
-                <td>5</td>
-                <td><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
-                <td>hong</td>
-                <td>2019-06-19</td>
-            </tr>
-            <tr onclick="openWindow(4)">
-                <td>4</td>
-                <td><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
-                <td>hong</td>
-                <td>2019-06-19</td>
-            </tr>
-            <tr onclick="openWindow(3)">
-                <td>3</td>
-                <td><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
-                <td>hong</td>
-                <td>2019-06-19</td>
-            </tr>
-            <tr onclick="openWindow(2)">
-                <td>2</td>
-                <td><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
-                <td>hong</td>
-                <td>2019-06-19</td>
-            </tr>
-            <tr onclick="openWindow(1)">
-                <td>1</td>
-                <td><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
-                <td>hong</td>
-                <td>2019-06-19</td>
+            <tr th:each="qna, status: ${list}" th:onclick="|location.href='/customer/customer02_3?no=${qna.qnaIdx}'|">
+                <td th:text="${status.count}">5</td>
+                <td th:text="${qna.qnaTitle}"><img src="../img/customer/icon_sct.gif">문의사항에 대해 자세한 답변 부탁합니다.</td>
+                <td th:text="${qna.qnaName}">hong</td>
+                <td th:text="${qna.qnaDate}">2019-06-19</td>
             </tr>
         </table>
     </div>
@@ -164,21 +136,23 @@
              src="../img/customer/write.gif">
     </div>
     <table>
-        <tr>
-            <td>
-                <select name="내용" id="">
-                    <option value="">제목</option>
-                    <option value="">내용</option>
-                    <option value="">작성자</option>
-                </select>
-            </td>
-            <td>
-                <input type="text">
-            </td>
-            <td>
-                <input type="image" src="../img/customer/search.gif">
-            </td>
-        </tr>
+        <form action="/customer/searchQna" method="get">
+            <tr>
+                <td>
+                    <select name="searchColumn" id="">
+                        <option value="qnaTitle">제목</option>
+                        <option value="qnaContent">내용</option>
+                        <option value="qnaName">작성자</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="searchKeyword">
+                </td>
+                <td>
+                    <input type="image" src="../img/customer/search.gif">
+                </td>
+            </tr>
+        </form>
     </table>
 </div>
 

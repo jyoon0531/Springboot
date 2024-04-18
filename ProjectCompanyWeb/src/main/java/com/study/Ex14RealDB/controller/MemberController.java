@@ -3,6 +3,7 @@ package com.study.Ex14RealDB.controller;
 import com.study.Ex14RealDB.domain.member.Member;
 import com.study.Ex14RealDB.dto.MemberIdCheckDto;
 import com.study.Ex14RealDB.dto.MemberIdCheckRequestDto;
+import com.study.Ex14RealDB.dto.MemberResponseDto;
 import com.study.Ex14RealDB.dto.MemberSaveRequestDto;
 import com.study.Ex14RealDB.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ public class MemberController {
             return "<script>alert('비밀번호가 다릅니다.'); history.back(); </script>";
         }
 
-        Member member = memberService.findByMemberPwAndMemberId(loginPw, loginId);
+        MemberResponseDto member = memberService.findByMemberPwAndMemberId(loginPw, loginId);
         session.setAttribute("loginId", member.getMemberId());
 
         return "<script>alert('로그인되었습니다.'); location.href='/'; </script>";
@@ -87,9 +88,9 @@ public class MemberController {
 
     @PostMapping("/idFindAction")
     public String idFindAction(@RequestParam String userName, @RequestParam String userEmail, Model model) {
-        Member m = memberService.findByMemberNameAndMemberEmail(userName, userEmail);
+        String result = memberService.findByMemberNameAndMemberEmail(userName, userEmail);
 
-        model.addAttribute("userId", m.getMemberId());
+        model.addAttribute("userId", result);
 
         return "/member/idFind";
     }
@@ -101,8 +102,8 @@ public class MemberController {
 
     @PostMapping("/passwordFindAction")
     public String passwordFindAction(@RequestParam String userName, @RequestParam String userEmail, @RequestParam String userId, Model model) {
-        Member m = memberService.findByMemberNameAndMemberEmailAndMemberId(userName, userEmail, userId);
-        model.addAttribute("userPw", m.getMemberPw());
+        String result = memberService.findByMemberNameAndMemberEmailAndMemberId(userName, userEmail, userId);
+        model.addAttribute("userPw", result);
         return "/member/passwordFind";
     }
 }

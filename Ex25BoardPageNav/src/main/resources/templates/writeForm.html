@@ -1,51 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글쓰기</title>
-    <style>
-        * {
-            margin: 0 auto;
-            padding: 0 auto;
-            overflow: hidden;
-        }
-        td, h2 {
-            text-align: center;
-        }
-        table, td {
-            width: 500px;
-            border: 1px solid black;
-        }
-    </style>
-</head>
-<body>
-<form action="writeAction" method="post">
-    <input type="hidden" name="boardHit" value="0">
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <td>이름</td>
-            <td><input type="text" name="boardName" value="" size="50"></td>
-        </tr>
-        <tr>
-            <td>제목</td>
-            <td><input type="text" name="boardTitle" value="" size="50"></td>
-        </tr>
-        <tr>
-            <td>내용</td>
-            <td>
-                <textarea rows="10" cols="48" name="boardContent"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">글쓰기</button>&nbsp;&nbsp;
-                <!-- <button type="button" onclick="location.href='listForm'">목록보기</button> -->
-                <a href="listForm"><input type="button" value="목록보기"></a>
-            </td>
-        </tr>
-    </table>
-</form>
-
-</body>
+  <head>
+    <!-- 헤더 -->
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+  </head>
+  <body>
+    <div id="wrap">
+      <!-- nav -->
+      <div th:replace="/fragments/nav.html :: fragment-nav"></div>
+      <br />
+      <div style="width: 100%">
+        <h3 class="sub-title">글쓰기</h3>
+        <form action="writeAction" method="post">
+          <table class="table table-bordered">
+            <input type="hidden" name="boardHit" value="0" />
+            <tr>
+              <td>
+                <label class="form-label">이름</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="boardName"
+                  size="50"
+                  class="form-control"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="form-label">제목</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="boardTitle"
+                  size="50"
+                  class="form-control"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="form-label">내용</label>
+              </td>
+              <td>
+                <textarea
+                  class="form-control"
+                  name="boardContent"
+                  cols="48"
+                  rows="10"
+                ></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: center">
+                &nbsp;&nbsp;<input
+                  type="submit"
+                  class="btn btn-success ms-2"
+                  value="글쓰기"
+                />&nbsp;&nbsp;
+                <a href="listForm"
+                  ><input
+                    type="button"
+                    class="btn btn-primary ms-2"
+                    value="목록보기"
+                /></a>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <!-- 푸터 -->
+      <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+    </div>
+  </body>
 </html>

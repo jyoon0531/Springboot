@@ -13,12 +13,14 @@ import java.time.LocalDate;
 public class NoticeResponseDto {
     private Long noticeIdx;
     private String noticeTitle;
+    private String noticeMemberId;
     private String noticeContent;
     private LocalDate noticeDate;
 
     public NoticeResponseDto(Notice entity) {
         this.noticeIdx = entity.getNoticeIdx();
         this.noticeTitle = entity.getNoticeTitle();
+        this.noticeMemberId = entity.getNoticeMemberId();
         this.noticeContent = entity.getNoticeContent();
         this.noticeDate  = entity.getNoticeDate();
     }
