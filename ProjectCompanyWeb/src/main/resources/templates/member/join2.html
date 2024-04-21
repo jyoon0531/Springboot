@@ -113,7 +113,7 @@
             if (pw === checkPw) {
                 document.getElementById("pwResult").style.color = "green";
                 document.getElementById("pwResult").innerText = "비밀번호가 일치합니다.";
-            }else {
+            } else {
                 document.getElementById("pwResult").style.color = "red";
                 document.getElementById("pwResult").innerText = "비밀번호가 일치하지 않습니다.";
             }
@@ -242,8 +242,11 @@
         </div>
         <div class="Information2">부가정보</div>
         <div class="imageBtn2">
-            <input type="image" src="../img/member/btn_confirm.gif">
-            <input type="image" src="../img/member/btn_cancel.gif">
+            <input type="image" src="/img/member/btn_confirm.gif">
+            <a onclick="location.href='/'">
+                <img src="/img/member/btn_cancel.gif"
+                >
+            </a>
         </div>
     </form>
 

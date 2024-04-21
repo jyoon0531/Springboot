@@ -1,9 +1,6 @@
 package com.study.Ex14RealDB.controller;
 
-import com.study.Ex14RealDB.dto.MemberResponseDto;
-import com.study.Ex14RealDB.dto.MemberSearchRequestDto;
-import com.study.Ex14RealDB.dto.NoticeResponseDto;
-import com.study.Ex14RealDB.dto.NoticeSaveRequestDto;
+import com.study.Ex14RealDB.dto.*;
 import com.study.Ex14RealDB.service.AdminMemberService;
 import com.study.Ex14RealDB.service.MemberService;
 import com.study.Ex14RealDB.service.NoticeService;
@@ -232,64 +229,181 @@ public class AdminController {
         return "/admin/admin_notice";
     }
 
-    @GetMapping("/searchNotice")
-    public String searchNotice(@RequestParam String searchSelect, @RequestParam String searchKeyword, Model model) {
+    @PostMapping("/searchNotice")
+    public String searchNotice(@ModelAttribute NoticeSearchRequestDto dto, Model model) {
+        String searchKeyword = dto.getSearchKeyword();
+        String searchSelect = dto.getSearchSelect();
+        String orderSelect = dto.getOrderSelect();
+        String pageSelect = dto.getPageSelect();
+
         List<NoticeResponseDto> list = null;
+        // 전체 검색
         if (searchSelect.equals("all")) {
-            list = noticeService.searchByKeyword(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberIdLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByKeywordOrderByNoticeMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByKeywordOrderByNoticeDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByKeywordOrderByNoticeDateLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByKeywordOrderByNoticeDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByKeywordOrderByNoticeDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByKeywordOrderByNoticeDateDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByKeywordOrderByNoticeDateDesc(searchKeyword);
+                }
+            }
         }
+
+        // 제목 검색
         if (searchSelect.equals("title")) {
-            list = noticeService.searchByNoticeTitle(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberIdLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDateLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDateDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeTitleOrderByNoticeDateDesc(searchKeyword);
+                }
+            }
         }
+
+        // 내용 검색
         if (searchSelect.equals("content")) {
-            list = noticeService.searchByNoticeContent(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberIdLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeContentOrderByNoticeMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDateLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDateDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeContentOrderByNoticeDateDesc(searchKeyword);
+                }
+            }
         }
+
+        // 작성자 아이디 검색
         if (searchSelect.equals("id")) {
-            list = noticeService.searchByNoticeMemberId(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberIdLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDateLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("regDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDateDescLimit10(searchKeyword);
+                } else {
+                    list = noticeService.searchByNoticeMemberIdOrderByNoticeDateDesc(searchKeyword);
+                }
+            }
         }
+
         int size = list != null ? list.size() : 0;
         model.addAttribute("list", list);
         model.addAttribute("size", size);
-        return "/admin/admin_notice";
-    }
-
-    @GetMapping("/sortNotice")
-    public String sortNotice(@RequestParam String orderSelect, Model model) {
-        List<NoticeResponseDto> list = null;
-        if (orderSelect.equals("idAsc")) {
-            list = noticeService.sortOrderByNoticeMemberId();
-        }
-        if (orderSelect.equals("idDesc")) {
-            list = noticeService.sortOrderByNoticeMemberIdDesc();
-        }
-        if (orderSelect.equals("regDateAsc")) {
-            list = noticeService.sortOrderByNoticeDate();
-        }
-        if (orderSelect.equals("regDateDesc")) {
-            list = noticeService.sortOrderByNoticeDateDesc();
-        }
-        int size = list != null ? list.size() : 0;
-        model.addAttribute("list", list);
-        model.addAttribute("size", size);
-        model.addAttribute("selected", orderSelect);
-
-        return "/admin/admin_notice";
-    }
-
-    @GetMapping("/pageNotice")
-    public String pageNotice(@RequestParam String pageSelect, Model model) {
-        List<NoticeResponseDto> list = null;
-        if (pageSelect.equals("page5")) {
-            list = noticeService.findLimit5();
-        }
-        if (pageSelect.equals("page10")) {
-            list = noticeService.findLimit10();
-        }
-        int size = list != null ? list.size() : 0;
-        model.addAttribute("list", list);
-        model.addAttribute("size", size);
-        model.addAttribute("selected", pageSelect);
-
+        model.addAttribute("searchSelect", searchSelect);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("orderSelected", orderSelect);
+        model.addAttribute("pageSelected", pageSelect);
         return "/admin/admin_notice";
     }
 
@@ -305,7 +419,7 @@ public class AdminController {
     public String modifyNoticeAction(@RequestParam Long noticeIdx, @RequestParam String editor4) {
         boolean isUpdate = noticeService.update(noticeIdx, editor4);
         if (isUpdate) {
-            return "<script>alert('공지사항 수정 성공'); location.href='/adminNotice';</script>";
+            return "<script>alert('공지사항 수정 성공'); location.href='/admin/adminNotice';</script>";
         } else {
             return "<script>alert('공지사항 수정 실패'); history.back();</script>";
         }
@@ -323,7 +437,7 @@ public class AdminController {
         dto.setNoticeMemberId(adminId);
         boolean isInsert = noticeService.save(dto.toEntity());
         if (isInsert) {
-            return "<script>alert('공지사항 등록 성공'); location.href='/adminNotice';</script>";
+            return "<script>alert('공지사항 등록 성공'); location.href='/admin/adminNotice';</script>";
         } else {
             return "<script>alert('공지사항 등록 실패'); history.back();</script>";
         }

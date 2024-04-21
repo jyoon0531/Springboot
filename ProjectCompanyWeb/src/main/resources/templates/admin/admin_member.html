@@ -119,35 +119,6 @@
 <div th:replace="/fragments/footer :: footerFragment"></div>
 
 <script>
-    function sortMember() {
-        let pageSelect = document.getElementById("pageSelect").value;
-        let orderSelect = document.getElementById("orderSelect").value;
-        let searchSelect = document.getElementById("searchSelect").value;
-        let searchKeyword = document.getElementById("searchKeyword").value;
-        console.log(orderSelect);
-        console.log(searchSelect);
-        console.log(searchKeyword);
-        // 검색어 없을 때
-        if (!document.getElementById("searchKeyword").value) {
-            location.href = '/admin/sortMember?orderSelect=' + orderSelect;
-        } else {
-            // 검색어 있을 때
-            location.href='/admin/sortMember/searchMember?orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
-        }
-
-    }
-
-    function pageMember() {
-        let pageSelect = document.getElementById("pageSelect").value;
-        let orderSelect = document.getElementById("orderSelect").value;
-        let searchSelect = document.getElementById("searchSelect").value;
-        let searchKeyword = document.getElementById("searchKeyword").value;
-        location.href = '/admin/pageMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
-    }
-
-</script>
-
-<script>
     // back to top 기능
     $(document).ready(function () {
         $(window).scroll(function () {

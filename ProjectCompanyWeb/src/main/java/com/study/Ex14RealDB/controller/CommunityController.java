@@ -44,7 +44,8 @@ public class CommunityController {
             List<NoticeResponseDto> list = noticeService.searchByNoticeContent(searchKeyword);
             model.addAttribute("list", list);
         }
-
+        model.addAttribute("selected", searchColumn);
+        model.addAttribute("searchKeyword", searchKeyword);
 
         return "/community/community01";
     }

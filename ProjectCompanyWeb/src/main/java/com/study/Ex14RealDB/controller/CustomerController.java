@@ -66,6 +66,8 @@ public class CustomerController {
             model.addAttribute("list", list);
 
         }
+        model.addAttribute("selected", searchColumn);
+        model.addAttribute("searchKeyword", searchKeyword);
 
         return "/customer/customer02";
     }
