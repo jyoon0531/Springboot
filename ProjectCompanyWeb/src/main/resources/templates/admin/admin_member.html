@@ -56,34 +56,34 @@
         <div class="adminDiv">
             <h3>회원관리</h3>
         </div>
-        <form action="/admin/searchMember" method="get">
+        <form action="/admin/searchMember" method="post">
             <div class="adminDiv">
                 검색 옵션
                 <select name="searchSelect" id="searchSelect">
-                    <option value="all" selected>전체</option>
-                    <option value="id">아이디</option>
-                    <option value="name">성명</option>
-                    <option value="email">이메일</option>
+                    <option value="all" th:selected="${searchSelected} == 'all'">전체</option>
+                    <option value="id" th:selected="${searchSelected} == 'id'">아이디</option>
+                    <option value="name" th:selected="${searchSelected} == 'name'">성명</option>
+                    <option value="email" th:selected="${searchSelected} == 'email'">이메일</option>
                 </select>
                 <input type="text" name="searchKeyword" id="searchKeyword" th:value="${searchKeyword}">
-                <input type="image" src="../img/community/search.gif">
+                <input type="image" src="/img/community/search.gif">
             </div>
             <div class="adminDiv">
                 정렬
-                <select class="size" name="orderSelect" id="orderSelect" onchange="sortMember()">
-                    <option value="idAsc" th:selected="${selected}=='idAsc'">아이디 오름차순</option>
-                    <option value="idDesc" th:selected="${selected}=='idDesc'">아이디 내림차순</option>
-                    <option value="joinDateAsc" th:selected="${selected}=='joinDateAsc'">가입일 오름차순</option>
-                    <option value="joinDateDesc" th:selected="${selected}=='joinDateDesc'">가입일 내림차순</option>
+                <select class="size" name="orderSelect" id="orderSelect" onchange="submit()">
+                    <option value="idAsc" th:selected="${orderSelected} == 'idAsc'">아이디 오름차순</option>
+                    <option value="idDesc" th:selected="${orderSelected} == 'idDesc'">아이디 내림차순</option>
+                    <option value="joinDateAsc" th:selected="${orderSelected} == 'joinDateAsc'">가입일 오름차순</option>
+                    <option value="joinDateDesc" th:selected="${orderSelected} == 'joinDateDesc'">가입일 내림차순</option>
                 </select>
             </div>
             <div class="adminDiv2" id="tableTitle">
                 <div th:text="|회원목록 ${size}건|">회원목록 1건</div>
                 <div>한페이지 행수
-                    <select class="size" name="pageSelect" id="pageSelect" onchange="pageMember()">
-                        <option value="pageAll" th:selected="${selected}=='pageAll'">전체 보기</option>
-                        <option value="page5" th:selected="${selected}=='page5'">5개만 보기</option>
-                        <option value="page10" th:selected="${selected}=='page10'">10개만 보기</option>
+                    <select class="size" name="pageSelect" id="pageSelect" onchange="submit()">
+                        <option value="pageAll" th:selected="${pageSelected} == 'pageAll'">전체 보기</option>
+                        <option value="page5" th:selected="${pageSelected} == 'page5'">5개만 보기</option>
+                        <option value="page10" th:selected="${pageSelected} == 'page10'">10개만 보기</option>
                     </select>
                 </div>
             </div>
@@ -129,10 +129,10 @@
         console.log(searchKeyword);
         // 검색어 없을 때
         if (!document.getElementById("searchKeyword").value) {
-            location.href = '/admin/sortMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
+            location.href = '/admin/sortMember?orderSelect=' + orderSelect;
         } else {
             // 검색어 있을 때
-            location.href='/admin/sortMember/searchMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
+            location.href='/admin/sortMember/searchMember?orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
         }
 
     }

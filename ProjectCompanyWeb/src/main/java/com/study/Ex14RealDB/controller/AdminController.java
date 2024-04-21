@@ -48,86 +48,181 @@ public class AdminController {
         return "admin/admin_member";
     }
 
-    @GetMapping("/searchMember")
-//    public String searchMember(@RequestParam String searchSelect, @RequestParam String searchKeyword, Model model) {
+    //    @GetMapping("/searchMember")
+    @PostMapping("/searchMember")
     public String searchMember(@ModelAttribute MemberSearchRequestDto dto, Model model) {
         String searchKeyword = dto.getSearchKeyword();
         String searchSelect = dto.getSearchSelect();
-        System.out.println(dto.getOrderSelect());
+        String orderSelect = dto.getOrderSelect();
+        String pageSelect = dto.getPageSelect();
         List<MemberResponseDto> list = null;
+        // 전체 검색
         if (searchSelect.equals("all")) {
-            list = memberService.searchByKeyword(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByKeywordOrderByMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByKeywordOrderByMemberIdLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByKeywordOrderByMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByKeywordOrderByMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByKeywordOrderByMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByKeywordOrderByMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByKeywordOrderByJoinDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByKeywordOrderByJoinDateLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByKeywordOrderByJoinDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByKeywordOrderByJoinDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByKeywordOrderByJoinDateDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByKeywordOrderByJoinDateDesc(searchKeyword);
+                }
+            }
         }
+        // 아이디 검색
         if (searchSelect.equals("id")) {
-            list = memberService.searchByMemberId(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberIdOrderByMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberIdOrderByMemberIdLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberIdOrderByMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberIdOrderByMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberIdOrderByMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberIdOrderByMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberIdOrderByJoinDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberIdOrderByJoinDateLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberIdOrderByJoinDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberIdOrderByJoinDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberIdOrderByJoinDateDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberIdOrderByJoinDateDesc(searchKeyword);
+                }
+            }
         }
+
+        // 이름 검색
         if (searchSelect.equals("name")) {
-            list = memberService.searchByMemberName(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberNameOrderByMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberNameOrderByMemberIdLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberNameOrderByMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberNameOrderByMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberNameOrderByMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberNameOrderByMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberNameOrderByJoinDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberNameOrderByJoinDateLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberNameOrderByJoinDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberNameOrderByJoinDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberNameOrderByJoinDateDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberNameOrderByJoinDateDesc(searchKeyword);
+                }
+            }
         }
+        // 이메일 검색
         if (searchSelect.equals("email")) {
-            list = memberService.searchByMemberEmail(searchKeyword);
+            if (orderSelect.equals("idAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberEmailOrderByMemberIdLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberEmailOrderByMemberIdLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberEmailOrderByMemberId(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("idDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberEmailOrderByMemberIdDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberEmailOrderByMemberIdDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberEmailOrderByMemberIdDesc(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateAsc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberEmailOrderByJoinDateLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberEmailOrderByJoinDateLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberEmailOrderByJoinDate(searchKeyword);
+                }
+            }
+            if (orderSelect.equals("joinDateDesc")) {
+                if (pageSelect.equals("page5")) {
+                    list = memberService.searchByMemberEmailOrderByJoinDateDescLimit5(searchKeyword);
+                } else if (pageSelect.equals("page10")) {
+                    list = memberService.searchByMemberEmailOrderByJoinDateDescLimit10(searchKeyword);
+                } else {
+                    list = memberService.searchByMemberEmailOrderByJoinDateDesc(searchKeyword);
+                }
+            }
         }
         int size = list != null ? list.size() : 0;
         model.addAttribute("list", list);
         model.addAttribute("size", size);
         model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("searchSelected", searchSelect);
+        model.addAttribute("orderSelected", orderSelect);
+        model.addAttribute("pageSelected", pageSelect);
 
         return "/admin/admin_member";
     }
-
-    @GetMapping("/sortMember/searchMember")
-    public String sortMemberWithSearchKeyword() {
-        return "/admin/admin_member";
-    }
-
-    @GetMapping("/sortMember")
-//    public String sortMember(@RequestParam String orderSelect, Model model) {
-    public String sortMember(@ModelAttribute MemberSearchRequestDto dto, Model model) {
-        String orderSelect = dto.getOrderSelect();  // 정렬 기준 : idAsc, idDesc, joinDateAsc, joinDateDesc
-        String searchKeyword = dto.getSearchKeyword();  // 검색어
-        String searchSelect = dto.getSearchSelect();    // 검색 기준 : all, id, name, email
-        List<MemberResponseDto> list = null;
-        if (orderSelect.equals("idAsc")) {
-            list = memberService.sortOrderByMemberId();
-//            list = memberService.findByMemberIdContainingOrderByMemberId(searchKeyword);
-        }
-
-        if (orderSelect.equals("idDesc")) {
-            list = memberService.sortOrderByMemberIdDesc();
-        }
-        if (orderSelect.equals("joinDateAsc")) {
-            list = memberService.sortOrderByMemberJoinDate();
-        }
-        if (orderSelect.equals("joinDateDesc")) {
-            list = memberService.sortOrderByMemberJoinDateDesc();
-        }
-        int size = list != null ? list.size() : 0;
-        model.addAttribute("list", list);
-        model.addAttribute("size", size);
-        model.addAttribute("selected", orderSelect);
-        model.addAttribute("searchKeyword", searchKeyword);
-        return "/admin/admin_member";
-    }
-
-    @GetMapping("/pageMember")
-    public String pageMember(@RequestParam String pageSelect,@RequestParam String orderSelect, Model model) {
-        List<MemberResponseDto> list = null;
-        if (pageSelect.equals("page5")) {
-            list = memberService.findLimit5();
-        }
-        if (pageSelect.equals("page10")) {
-            list = memberService.findLimit10();
-        }
-        if (pageSelect.equals("pageAll")) {
-            list = memberService.findAll();
-        }
-        int size = list != null ? list.size() : 0;
-        model.addAttribute("list", list);
-        model.addAttribute("size", size);
-        model.addAttribute("selected", pageSelect);
-        return "/admin/admin_member";
-    }
-
 
     @GetMapping("/adminNotice")
     public String adminNotice(Model model) {
@@ -211,7 +306,7 @@ public class AdminController {
         boolean isUpdate = noticeService.update(noticeIdx, editor4);
         if (isUpdate) {
             return "<script>alert('공지사항 수정 성공'); location.href='/adminNotice';</script>";
-        }else {
+        } else {
             return "<script>alert('공지사항 수정 실패'); history.back();</script>";
         }
     }
@@ -229,7 +324,7 @@ public class AdminController {
         boolean isInsert = noticeService.save(dto.toEntity());
         if (isInsert) {
             return "<script>alert('공지사항 등록 성공'); location.href='/adminNotice';</script>";
-        }else {
+        } else {
             return "<script>alert('공지사항 등록 실패'); history.back();</script>";
         }
     }
