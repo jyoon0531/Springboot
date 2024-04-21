@@ -34,4 +34,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query(value = "SELECT * FROM company_member m ORDER BY m.member_idx LIMIT 10", nativeQuery = true)
     List<Member> findLimit10();
+
+    List<Member> findAllByMemberIdContainingOrderByMemberId(String keyword);
 }

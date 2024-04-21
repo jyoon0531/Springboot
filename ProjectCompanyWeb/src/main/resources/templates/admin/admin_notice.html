@@ -61,9 +61,9 @@
     <!-- 사이드메뉴 -->
     <div id="adminSide">
         <ul>
-            <li><a href="/adminMember">회원 관리</a></li>
+            <li><a href="/admin/adminMember">회원 관리</a></li>
             <li>
-                <a href="/adminNotice" class="adminSideActive">공지사항 관리</a>
+                <a href="/admin/adminNotice" class="adminSideActive">공지사항 관리</a>
             </li>
 
         </ul>
@@ -74,7 +74,7 @@
             <h3>공지사항 관리</h3>
         </div>
         <div class="adminDiv">
-            <form action="/searchNotice" method="get">
+            <form action="/admin/searchNotice" method="get">
                 검색 옵션
                 <select name="searchSelect" id="searchSelect">
                     <option value="all" selected>전체</option>
@@ -136,7 +136,7 @@
 
         <div class="pageNav adminDiv2">
 
-            <div><a href="/writeNotice">공지글 쓰기</a></div>
+            <div><a href="/admin/writeNotice">공지글 쓰기</a></div>
         </div>
     </div>
 </div>
@@ -148,12 +148,12 @@
 
     function sortNotice() {
         let orderSelect = document.getElementById("orderSelect").value;
-        location.href = '/sortNotice?orderSelect=' + orderSelect;
+        location.href = '/admin/sortNotice?orderSelect=' + orderSelect;
     }
 
     function pageNotice() {
         let pageSelect = document.getElementById("pageSelect").value;
-        location.href = '/pageNotice?pageSelect=' + pageSelect;
+        location.href = '/admin/pageNotice?pageSelect=' + pageSelect;
     }
 
 

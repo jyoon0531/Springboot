@@ -60,9 +60,9 @@
     <!-- 사이드메뉴 -->
     <div id="adminSide">
         <ul>
-            <li><a href="/adminMember">회원 관리</a></li>
+            <li><a href="/admin/adminMember">회원 관리</a></li>
             <li>
-                <a href="/adminNotice" class="adminSideActive">공지사항 관리</a>
+                <a href="/admin/adminNotice" class="adminSideActive">공지사항 관리</a>
             </li>
         </ul>
     </div>
@@ -78,7 +78,7 @@
             <span th:text="|글번호:${notice.noticeIdx}|">글번호:5</span>
           </span>
         </div>
-        <form action="/modifyNoticeAction" method="post">
+        <form action="/admin/modifyNoticeAction" method="post">
             <div class="adminDiv2">
                 <div class="noticeViewContent">
                     <input type="hidden" name="noticeIdx" th:value="${notice.noticeIdx}">
@@ -93,7 +93,7 @@
                     <!--                <a href="/admin_notice_delete?notice_idx=1">삭제</a>-->
                 </div>
                 <div>
-                    <a href="/adminNotice">목록</a>
+                    <a href="/admin/adminNotice">목록</a>
                 </div>
             </div>
         </form>

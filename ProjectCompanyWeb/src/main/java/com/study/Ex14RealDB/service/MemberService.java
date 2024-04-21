@@ -129,11 +129,21 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
+    public List<MemberResponseDto> findByMemberIdContainingOrderByMemberId(String searchKeyword) {
+        List<Member> list = memberRepository.findAllByMemberIdContainingOrderByMemberId(searchKeyword);
+        return list.stream().map(MemberResponseDto::new).collect(Collectors.toList());
+
+    }
+
+    @Transactional(readOnly = true)
     public List<MemberResponseDto> sortOrderByMemberIdDesc() {
         Sort sort = Sort.by(Sort.Direction.DESC, "memberId");
         List<Member> list = memberRepository.findAll(sort);
         return list.stream().map(MemberResponseDto::new).collect(Collectors.toList());
     }
+
+//    @Transactional(readOnly = true)
+//    public List<MemberResponseDto> findByMember
 
     @Transactional(readOnly = true)
     public List<MemberResponseDto> sortOrderByMemberJoinDate() {

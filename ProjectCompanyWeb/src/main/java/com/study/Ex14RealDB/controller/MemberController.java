@@ -42,6 +42,14 @@ public class MemberController {
         return "<script>alert('로그인되었습니다.'); location.href='/'; </script>";
     }
 
+    @GetMapping("/logout")
+    @ResponseBody
+    public String logout(HttpSession session) {
+        session.setAttribute("loginId", null);
+
+        return "<script>alert('로그아웃되었습니다.'); location.href='/';</script>";
+    }
+
     @GetMapping("/join")
     public String join() {
         return "/member/join2";

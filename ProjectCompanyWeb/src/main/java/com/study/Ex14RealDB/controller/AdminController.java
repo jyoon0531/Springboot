@@ -1,6 +1,7 @@
 package com.study.Ex14RealDB.controller;
 
 import com.study.Ex14RealDB.dto.MemberResponseDto;
+import com.study.Ex14RealDB.dto.MemberSearchRequestDto;
 import com.study.Ex14RealDB.dto.NoticeResponseDto;
 import com.study.Ex14RealDB.dto.NoticeSaveRequestDto;
 import com.study.Ex14RealDB.service.AdminMemberService;
@@ -16,12 +17,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
     private final AdminMemberService adminService;
     private final MemberService memberService;
     private final NoticeService noticeService;
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public String adminLogin() {
         return "/admin/admin_login";
     }
@@ -31,7 +33,7 @@ public class AdminController {
         boolean isAdmin = adminService.findByMemberIdAndMemberPw(memberId, memberPw);
         if (isAdmin) {
             session.setAttribute("adminId", memberId);
-            return "redirect:/adminMember";
+            return "redirect:/admin/adminMember";
         } else {
             return "redirect:/admin";
         }
@@ -47,7 +49,11 @@ public class AdminController {
     }
 
     @GetMapping("/searchMember")
-    public String searchMember(@RequestParam String searchSelect, @RequestParam String searchKeyword, Model model) {
+//    public String searchMember(@RequestParam String searchSelect, @RequestParam String searchKeyword, Model model) {
+    public String searchMember(@ModelAttribute MemberSearchRequestDto dto, Model model) {
+        String searchKeyword = dto.getSearchKeyword();
+        String searchSelect = dto.getSearchSelect();
+        System.out.println(dto.getOrderSelect());
         List<MemberResponseDto> list = null;
         if (searchSelect.equals("all")) {
             list = memberService.searchByKeyword(searchKeyword);
@@ -64,16 +70,28 @@ public class AdminController {
         int size = list != null ? list.size() : 0;
         model.addAttribute("list", list);
         model.addAttribute("size", size);
+        model.addAttribute("searchKeyword", searchKeyword);
 
         return "/admin/admin_member";
     }
 
+    @GetMapping("/sortMember/searchMember")
+    public String sortMemberWithSearchKeyword() {
+        return "/admin/admin_member";
+    }
+
     @GetMapping("/sortMember")
-    public String sortMember(@RequestParam String orderSelect, Model model) {
+//    public String sortMember(@RequestParam String orderSelect, Model model) {
+    public String sortMember(@ModelAttribute MemberSearchRequestDto dto, Model model) {
+        String orderSelect = dto.getOrderSelect();  // 정렬 기준 : idAsc, idDesc, joinDateAsc, joinDateDesc
+        String searchKeyword = dto.getSearchKeyword();  // 검색어
+        String searchSelect = dto.getSearchSelect();    // 검색 기준 : all, id, name, email
         List<MemberResponseDto> list = null;
         if (orderSelect.equals("idAsc")) {
             list = memberService.sortOrderByMemberId();
+//            list = memberService.findByMemberIdContainingOrderByMemberId(searchKeyword);
         }
+
         if (orderSelect.equals("idDesc")) {
             list = memberService.sortOrderByMemberIdDesc();
         }
@@ -87,11 +105,12 @@ public class AdminController {
         model.addAttribute("list", list);
         model.addAttribute("size", size);
         model.addAttribute("selected", orderSelect);
+        model.addAttribute("searchKeyword", searchKeyword);
         return "/admin/admin_member";
     }
 
     @GetMapping("/pageMember")
-    public String pageMember(@RequestParam String pageSelect, Model model) {
+    public String pageMember(@RequestParam String pageSelect,@RequestParam String orderSelect, Model model) {
         List<MemberResponseDto> list = null;
         if (pageSelect.equals("page5")) {
             list = memberService.findLimit5();

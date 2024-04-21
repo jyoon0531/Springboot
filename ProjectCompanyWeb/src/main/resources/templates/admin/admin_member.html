@@ -47,8 +47,8 @@
     <!-- 사이드메뉴 -->
     <div id="adminSide">
         <ul>
-            <li><a href="/adminMember" class="adminSideActive">회원 관리</a></li>
-            <li><a href="/adminNotice">공지사항 관리</a></li>
+            <li><a href="/admin/adminMember" class="adminSideActive">회원 관리</a></li>
+            <li><a href="/admin/adminNotice">공지사항 관리</a></li>
         </ul>
     </div>
     <!-- 메인 -->
@@ -56,38 +56,40 @@
         <div class="adminDiv">
             <h3>회원관리</h3>
         </div>
-        <div class="adminDiv">
-            <form action="/searchMember" method="get">
+        <form action="/admin/searchMember" method="get">
+            <div class="adminDiv">
                 검색 옵션
-                <select name="searchSelect" id="search_select">
+                <select name="searchSelect" id="searchSelect">
                     <option value="all" selected>전체</option>
                     <option value="id">아이디</option>
                     <option value="name">성명</option>
                     <option value="email">이메일</option>
                 </select>
-                <input type="text" name="searchKeyword" id="search_keyword" value="">
+                <input type="text" name="searchKeyword" id="searchKeyword" th:value="${searchKeyword}">
                 <input type="image" src="../img/community/search.gif">
-            </form>
-        </div>
-        <div class="adminDiv">
-            정렬
-            <select class="size" name="orderSelect" id="orderSelect" onchange="sortMember()">
-                <option value="idAsc" th:selected="${selected}=='idAsc'">아이디 오름차순</option>
-                <option value="idDesc" th:selected="${selected}=='idDesc'">아이디 내림차순</option>
-                <option value="joinDateAsc" th:selected="${selected}=='joinDateAsc'">가입일 오름차순</option>
-                <option value="joinDateDesc" th:selected="${selected}=='joinDateDesc'">가입일 내림차순</option>
-            </select>
-        </div>
-        <div class="adminDiv2" id="tableTitle">
-            <div th:text="|회원목록 ${size}건|">회원목록 1건</div>
-            <div>한페이지 행수
-                <select class="size" name="pageSelect" id="pageSelect" onchange="pageMember()">
-                    <option value="pageAll" th:selected="${selected}=='pageAll'">전체 보기</option>
-                    <option value="page5" th:selected="${selected}=='page5'">5개만 보기</option>
-                    <option value="page10" th:selected="${selected}=='page10'">10개만 보기</option>
+            </div>
+            <div class="adminDiv">
+                정렬
+                <select class="size" name="orderSelect" id="orderSelect" onchange="sortMember()">
+                    <option value="idAsc" th:selected="${selected}=='idAsc'">아이디 오름차순</option>
+                    <option value="idDesc" th:selected="${selected}=='idDesc'">아이디 내림차순</option>
+                    <option value="joinDateAsc" th:selected="${selected}=='joinDateAsc'">가입일 오름차순</option>
+                    <option value="joinDateDesc" th:selected="${selected}=='joinDateDesc'">가입일 내림차순</option>
                 </select>
             </div>
-        </div>
+            <div class="adminDiv2" id="tableTitle">
+                <div th:text="|회원목록 ${size}건|">회원목록 1건</div>
+                <div>한페이지 행수
+                    <select class="size" name="pageSelect" id="pageSelect" onchange="pageMember()">
+                        <option value="pageAll" th:selected="${selected}=='pageAll'">전체 보기</option>
+                        <option value="page5" th:selected="${selected}=='page5'">5개만 보기</option>
+                        <option value="page10" th:selected="${selected}=='page10'">10개만 보기</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <!--회원 목록 결과 조회-->
         <div class="">
             <table class="adminTable">
                 <thead>
@@ -118,13 +120,29 @@
 
 <script>
     function sortMember() {
+        let pageSelect = document.getElementById("pageSelect").value;
         let orderSelect = document.getElementById("orderSelect").value;
-        location.href = '/sortMember?orderSelect=' + orderSelect;
+        let searchSelect = document.getElementById("searchSelect").value;
+        let searchKeyword = document.getElementById("searchKeyword").value;
+        console.log(orderSelect);
+        console.log(searchSelect);
+        console.log(searchKeyword);
+        // 검색어 없을 때
+        if (!document.getElementById("searchKeyword").value) {
+            location.href = '/admin/sortMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
+        } else {
+            // 검색어 있을 때
+            location.href='/admin/sortMember/searchMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
+        }
+
     }
 
     function pageMember() {
         let pageSelect = document.getElementById("pageSelect").value;
-        location.href = '/pageMember?pageSelect=' + pageSelect;
+        let orderSelect = document.getElementById("orderSelect").value;
+        let searchSelect = document.getElementById("searchSelect").value;
+        let searchKeyword = document.getElementById("searchKeyword").value;
+        location.href = '/admin/pageMember?pageSelect=' + pageSelect + '&orderSelect=' + orderSelect + '&searchSelect=' + searchSelect + '&searchKeyword=' + searchKeyword;
     }
 
 </script>
