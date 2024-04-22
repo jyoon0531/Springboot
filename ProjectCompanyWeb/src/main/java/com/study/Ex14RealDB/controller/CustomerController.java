@@ -29,7 +29,7 @@ public class CustomerController {
     @PostMapping("/insertOne2one")
     @ResponseBody
     public String insertOne2one(@ModelAttribute One2oneSaveRequestDto dto, @RequestParam String sample6_address, @RequestParam String sample6_detailAddress) {
-        String address = sample6_address+" "+sample6_detailAddress;
+        String address = sample6_address + " " + sample6_detailAddress;
         dto.setAddress(address);
         Long newIdx = oneService.save(dto);
         boolean isFound = oneService.existsById(newIdx);
@@ -83,7 +83,7 @@ public class CustomerController {
     public String qnaCheckPw(@RequestParam String qnaPw, @RequestParam Long qnaIdx) {
         QnaResponseDto dto = qnaService.findById(qnaIdx);
         if (dto.getQnaPw().equals(qnaPw)) {
-            return "<script>location.href='/customer/qnaDetail?no="+dto.getQnaIdx()+"';</script>";
+            return "<script>location.href='/customer/qnaDetail?no=" + dto.getQnaIdx() + "';</script>";
         }
 
         return "<script>alert('비밀번호가 일치하지 않습니다.'); history.back(); </script>";
@@ -96,4 +96,10 @@ public class CustomerController {
 
         return "/customer/customer02_4";
     }
+
+    @GetMapping("/customer03")
+    public String fqa() {
+        return "/customer/customer03";
+    }
+
 }

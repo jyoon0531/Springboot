@@ -46,6 +46,7 @@ public class MemberController {
     @ResponseBody
     public String logout(HttpSession session) {
         session.setAttribute("loginId", null);
+        session.setAttribute("adminId", null);
 
         return "<script>alert('로그아웃되었습니다.'); location.href='/';</script>";
     }

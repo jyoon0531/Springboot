@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +26,7 @@ public class One2oneSaveRequestDto {
                 .one2oneAddress(address)
                 .one2oneTitle(title)
                 .one2oneContent(desc)
+                .one2oneDate(LocalDate.now())
                 .build();
     }
 }
