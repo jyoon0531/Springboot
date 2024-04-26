@@ -4,113 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글 내용</title>
-    <style>
-        * {
-            margin: 0 auto;
-            padding: 0 auto;
-            overflow: hidden;
-        }
-
-        td, h2 {
-            text-align: center;
-        }
-
-        table, td {
-            width: 500px;
-            border: 1px solid black;
-        }
-
-        a {
-            text-decoration-line: none;
-        }
-    </style>
+    <!--헤더-->
+    <div th:replace="/fragments/header :: fragment-header"></div>
 </head>
 <body>
-<h2>글 내용</h2>
-<form action="updateAction" method="post">
-    <input type="hidden" name="boardIdx" th:value="${ dto.boardIdx }">
-    <input type="hidden" name="boardHit" th:value="${ dto.boardHit }">
-    <table cellpadding="0" cellspacing="0">
+<div id="warp">
+    <div th:replace="/fragments/nav :: fragment-nav"></div>
+    <form action="updateAction">
+        <table class="table table-bordered">
+            <input type="hidden" name="boardIdx" th:value="${dto.boardIdx}">
+            <tr>
+                <td>글인덱스</td>
+                <td th:text="${dto.boardIdx}"></td>
+            </tr>
+            <tr>
+                <td>조회수</td>
+                <input type="hidden" name="boardHit" th:value="${dto.boardIdx}">
+                <td th:text="${dto.boardIdx}"></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td>
+                    <input type="text" class="form-control" name="boardName" th:value="${dto.boardName}" size="50">
+                </td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td>
+                    <input type="text" class="form-control" name="boardName" th:value="${dto.boardTitle}" size="50">
+                </td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td>
+                    <textarea class="form-control" name="boardContent" cols="50" rows="10"
+                              th:text="${dto.boardContent}"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-success mx-2" value="수정하기">
+                        <a href="listForm">
+                            <button type="button" class="btn btn-primary ms-2 mx-2">목록보기</button></a>
+                        <a th:href="|deleteAction?boardIdx=${dto.boardIdx}|">
+                            <button type="button" class="btn btn-danger ms-2 mx-2">삭제하기</button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--댓글목록-->
+<div style="width: 100%">
+    <h3 class="sub-title">댓글목록</h3>
+    <table class="table table-striped table=bordered">
         <tr>
-            <td>번호</td>
-            <td th:text="${ dto.boardIdx }">글 인덱스</td>
+            <th>별명</th>
+            <th>내용</th>
+            <th>날짜</th>
+            <th>삭제</th>
         </tr>
-        <tr>
-            <td>조회수</td>
-            <td th:text="${ dto.boardHit }">조회수</td>
-        </tr>
-        <tr>
-            <td>이름</td>
-            <td><input type="text" name="boardName" th:value="${ dto.boardName }" size="50"></td>
-        </tr>
-        <tr>
-            <td>제목</td>
-            <td><input type="text" name="boardTitle" th:value="${ dto.boardTitle }" size="50"></td>
-        </tr>
-        <tr>
-            <td>내용</td>
-            <td>
-                <textarea rows="10" cols="48" name="boardContent" th:text="${ dto.boardContent }"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">글수정</button>&nbsp;&nbsp;
-                <a href="listForm">
-                    <input type="button" value="목록보기">
-                </a>&nbsp;&nbsp;
-                <a th:href="|deleteAction?boardIdx=${dto.boardIdx}|">
-                    <input type="button" value="삭제하기"></a>
-                </a>
-            </td>
-        </tr>
+
     </table>
-</form>
 
-<br>
 
-<!-- 댓글 달기 -->
-<form action="/reply/writeReplyAction" method="post">
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <td colspan="2">
-                <input type="hidden" name="replyBoardIdx"
-                       th:value="${dto.boardIdx}">
-                <label>댓글</label>
-                <textarea name="replyContent" cols="50" rows="2"></textarea> <br>
-                <label>별명</label>
-                <input type="text" name="replyName" value=""> <br>
-                <input type="submit" value="댓글달기">
-            </td>
-        </tr>
-    </table>
+</div>
 
-</form>
 
-<br>
-<!-- 댓글 목록 -->
-<table>
-    <thead>
-        <tr>
-            <td>별명</td>
-            <td>내용</td>
-            <td>날짜</td>
-            <td>삭제</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="dto: ${replyList}">
-            <td th:text="${dto.replyName}"></td>
-            <td th:text="${dto.replyContent}"></td>
-            <td th:text="${ #temporals.format(dto.replyDate, 'yyyy-MM-dd HH:mm') }"></td>
-            <td>
-                <a th:href="|/reply/deleteAction?replyIdx=${dto.replyIdx}&boardIdx=${dto.replyBoardIdx}|">
-                    <input type="button" value="삭제">
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<!--댓글쓰기 - 부트스트랩 아코디언-->
 
+<!--푸터-->
+<footer th:replace="/fragments/footer :: fragment-footer"></footer>
 </body>
+
 </html>
