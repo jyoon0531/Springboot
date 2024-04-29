@@ -3,6 +3,8 @@ package com.study.springboot.controller;
 import com.study.springboot.dto.MemberJoinDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.MemberRepository;
+import com.study.springboot.service.SessionUser;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,7 +28,7 @@ public class MemberController {
 
     @GetMapping("/loginForm")
     public String loginForm() {
-        return "loginForm";
+        return "login";
     }
 
     @GetMapping("/joinForm")
@@ -83,5 +85,29 @@ public class MemberController {
         model.addAttribute("list", list);
 
         return "admin";
+    }
+
+    @GetMapping("/snsLoginSuccess")
+    @ResponseBody
+    public String snsLoginSuccess(Model model, HttpSession session) {
+        SessionUser user = (SessionUser) session.getAttribute("user");
+
+        String userName = "";
+        String userEmail = "";
+        String userPicture = "";
+        if (user != null) {
+            userName = user.getName();
+            userEmail = user.getEmail();
+            userPicture = user.getPicture();
+
+            // member_security 테이블에 sns_user 정보를 insert한다.
+        }
+        return "<script>alert('SNS 로그인 성공:" + userName + "'); location.href='/loginForm';</script>";
+    }
+
+    @GetMapping("/snsLoginFailure")
+    @ResponseBody
+    public String snsLoginFailure() {
+        return "<script>alert('SNS 로그인 실패!'); history.back(); </script>";
     }
 }
